@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ADMIN = "admin", "ADMIN"
         STAFF = "staff", "STAFF"
         STUDENT = "student", "STUDENT"
-        TEACHER = "teacher", "TEACHER"
+        MANAGER = "manager", "MANAGER"
 
     email = models.EmailField(max_length=254, unique=True)
     first_name = models.CharField(max_length=127)
