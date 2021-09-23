@@ -72,3 +72,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class StudentUser(User):
+    class Meta:
+        proxy = True
+        verbose_name = "Student"
+        verbose_name_plural = "Students"
