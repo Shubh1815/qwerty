@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Calorie
+from .models import Product, Calorie, Transaction, Item
 
 
 class CalorieAdmin(admin.StackedInline):
@@ -46,4 +46,19 @@ class ProductAdmin(admin.ModelAdmin):
         return readonly_fields
 
 
+class ItemInline(admin.StackedInline):
+    model = Item
+    raw_id_fields = ("product",)
+    extra = 1
+
+
+class TransactionAdmin(admin.ModelAdmin):
+    fields = ("student", "amount")
+    inlines = [
+        ItemInline,
+    ]
+    raw_id_fields = ("student",)
+
+
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Transaction, TransactionAdmin)
