@@ -57,14 +57,6 @@ class StudentAdmin(UserAdmin):
         form.base_fields["role"].disabled = True
         return form
 
-    def get_queryset(self, request):
-        return (
-            super()
-            .get_queryset(request)
-            .filter(role=User.Roles.STUDENT)
-            .select_related("student")
-        )
-
     def get_student_enrollment_no(self, obj):
         return obj.student.enrollment_no
 

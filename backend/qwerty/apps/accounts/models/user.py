@@ -1,9 +1,12 @@
+import uuid
+
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
 from django.db import models
+from django.db.models.manager import Manager
 
 # Create your models here.
 
@@ -47,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         STUDENT = "student", "STUDENT"
         MANAGER = "manager", "MANAGER"
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=254, unique=True)
     first_name = models.CharField(max_length=127)
     last_name = models.CharField(max_length=127)
@@ -74,7 +78,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name} {self.last_name}"
 
 
+class StudentManager(Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role=User.Roles.STUDENT).select_related()
+
+
 class StudentUser(User):
+
+    objects = StudentManager()
+
     class Meta:
         proxy = True
         verbose_name = "Student"
