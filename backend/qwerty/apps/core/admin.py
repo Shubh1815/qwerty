@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.core.checks import messages
+from django.core.exceptions import ValidationError
+from django.http.response import HttpResponseRedirect
 
 from .models import Product, Calorie, Transaction, Item
 
@@ -58,6 +61,26 @@ class TransactionAdmin(admin.ModelAdmin):
         ItemInline,
     ]
     raw_id_fields = ("student",)
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        try:
+            response = super().changeform_view(
+                request,
+                object_id=object_id,
+                form_url=form_url,
+                extra_context=extra_context,
+            )
+        except ValidationError as e:
+            self.message_user(request, e.message, level=messages.ERROR)
+            response = HttpResponseRedirect(request.path)
+        finally:
+            return response
+
+    def get_fields(self, request, obj):
+        fields = list(super().get_fields(request, obj=obj))
+        if obj:
+            fields.append("total_amount")
+        return fields
 
 
 admin.site.register(Product, ProductAdmin)
