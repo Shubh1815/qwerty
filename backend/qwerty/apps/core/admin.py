@@ -51,12 +51,22 @@ class ProductAdmin(admin.ModelAdmin):
 
 class ItemInline(admin.StackedInline):
     model = Item
+    fields = ("product", "quantity")
+    readonly_fields = ("price_per_quantity",)
     raw_id_fields = ("product",)
     extra = 1
 
+    def get_fields(self, request, obj):
+        fields = list(super().get_fields(request, obj=obj))
+        if obj:
+            fields.append("price_per_quantity")
+        return fields
+
 
 class TransactionAdmin(admin.ModelAdmin):
-    fields = ("student", "amount")
+    fields = ("student",)
+    readonly_fields = ("total_amount",)
+    list_display = ("id", "date")
     inlines = [
         ItemInline,
     ]
