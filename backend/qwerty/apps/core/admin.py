@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.core.checks import messages
 from django.core.exceptions import ValidationError
-from django.http.response import HttpResponseRedirect
+from django.db.models import F, Sum, Value
+from django.forms import ModelForm
 
 from .models import Product, Calorie, Transaction, Item
 
@@ -63,7 +63,33 @@ class ItemInline(admin.StackedInline):
         return fields
 
 
+class TransactionValidationForm(ModelForm):
+    def clean(self):
+        cleaned_data = super().clean()
+
+        item_form_prefix = "items"
+        total_item_forms = int(self.data.get(f"{item_form_prefix}-TOTAL_FORMS"))
+
+        cleaned_data["total_amount"] = 0
+        for item_form_id in range(total_item_forms):
+            quantity = int(self.data.get(f"{item_form_prefix}-{item_form_id}-quantity"))
+            product_name = self.data.get(f"{item_form_prefix}-{item_form_id}-product")
+            price_per_quantity = Product.objects.values_list("amount", flat=True).get(
+                name=product_name
+            )
+
+            cleaned_data["total_amount"] += price_per_quantity * quantity
+
+        student = cleaned_data.get("student")
+        if student.student.balance < cleaned_data["total_amount"]:
+            raise ValidationError("Student doesn't have enough balance")
+
+        return cleaned_data
+
+
 class TransactionAdmin(admin.ModelAdmin):
+    form = TransactionValidationForm
+
     fields = ("student",)
     readonly_fields = ("total_amount",)
     list_display = ("id", "date")
@@ -72,25 +98,15 @@ class TransactionAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ("student",)
 
-    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
-        try:
-            response = super().changeform_view(
-                request,
-                object_id=object_id,
-                form_url=form_url,
-                extra_context=extra_context,
-            )
-        except ValidationError as e:
-            self.message_user(request, e.message, level=messages.ERROR)
-            response = HttpResponseRedirect(request.path)
-        finally:
-            return response
-
     def get_fields(self, request, obj):
         fields = list(super().get_fields(request, obj=obj))
         if obj:
             fields.append("total_amount")
         return fields
+
+    def save_model(self, request, obj, form, change):
+        obj.total_amount = form.cleaned_data.get("total_amount")
+        return super().save_model(request, obj, form, change)
 
 
 admin.site.register(Product, ProductAdmin)
