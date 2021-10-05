@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "graphene_django",
+    "rest_framework",
     "qwerty.apps.accounts",
     "qwerty.apps.core",
 ]
@@ -142,9 +142,3 @@ STATICFILES_DIRS = [
         "console": {"class": "logging.StreamHandler", "formatter": "console"},
     },
 }
-
-# ==============================================================================
-# GRAPHQL CONFIGURATIONS
-# ==============================================================================
-
-GRAPHENE = {"SCHEMA": "qwerty.apps.graph.schema.schema"}
