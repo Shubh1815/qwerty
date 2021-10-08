@@ -1,7 +1,8 @@
 import os
-import environ
-
+from datetime import timedelta
 from pathlib import Path
+
+import environ
 
 env = environ.Env()
 environ.Env.read_env()
@@ -142,4 +143,26 @@ logging = {
     "handlers": {
         "console": {"class": "logging.StreamHandler", "formatter": "console"},
     },
+}
+
+# ==============================================================================
+# REST_FRAMEWORK CONFIGURATIONS
+# ==============================================================================
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+# ==============================================================================
+# SIMPLE JWT CONFIGURATIONS
+# ==============================================================================
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "UPDATE_LAST_LOGIN": True,
+    "SIGNING_KEY": env.str("SECRET_KEY"),
 }
