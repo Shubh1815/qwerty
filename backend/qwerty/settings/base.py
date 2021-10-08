@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
 # LOGGING CONFIGURATIONS
 # ==============================================================================
 
-{
+logging = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
