@@ -2,7 +2,6 @@ from django.db import transaction as db_transaction
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import ListCreateAPIView
 
 from qwerty.apps.core.models import Item, Transaction
 
