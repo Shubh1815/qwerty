@@ -2,9 +2,10 @@ from django.core.exceptions import (
     ObjectDoesNotExist,
     ValidationError as DjangoValidationError,
 )
+from django.http.response import Http404
 
 from rest_framework import status
-from rest_framework.exceptions import ValidationError, PermissionDenied
+from rest_framework.exceptions import ValidationError, PermissionDenied, NotFound
 from rest_framework.response import Response
 
 
@@ -39,33 +40,26 @@ class BaseResponse:
         return Response(status=status.HTTP_201_CREATED, data=data)
 
     @staticmethod
-    def bad_request(message=None, request=None):
+    def bad_request(message=None):
         data = {"status": "bad request"}
-
-        logs = {"message": message}
-        if request:
-            logs["headers"] = request.headers
-            logs["data"] = request.data
+        if message:
+            data["message"] = message
 
         return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
 
     @staticmethod
-    def unauthorized(message, request=None):
-        data = {
-            "status": "unauthorized",
-        }
-
-        logs = {"message": message}
-        if request:
-            logs["headers"] = request.headers
-            logs["data"] = request.data
+    def unauthorized(message):
+        data = {"status": "unauthorized"}
+        if message:
+            data["message"] = message
 
         return Response(status=status.HTTP_401_UNAUTHORIZED, data=data)
 
     @staticmethod
-    def not_found(message, request=None):
+    def not_found(message):
         data = {
             "status": "not found",
+            "message": message,
         }
 
         return Response(status=status.HTTP_404_NOT_FOUND, data=data)
@@ -92,13 +86,13 @@ class BaseResponse:
         try:
             raise exception
         except DjangoValidationError:
-            response = __class__.bad_request(exception.message, request)
+            response = __class__.bad_request(exception.message)
         except ValidationError:
-            response = __class__.bad_request(exception.get_full_details(), request)
+            response = __class__.bad_request(exception.get_full_details())
         except PermissionDenied:
-            response = __class__.unauthorized(exception.get_full_details(), request)
-        except ObjectDoesNotExist:
-            response = __class__.not_found(str(exception), request)
+            response = __class__.unauthorized(exception.get_full_details())
+        except (ObjectDoesNotExist, NotFound, Http404):
+            response = __class__.not_found(str(exception))
         except Exception:
             response = __class__.error(exception, request)
         return response

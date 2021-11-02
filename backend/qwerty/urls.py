@@ -14,18 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.routers import DefaultRouter
+
+from qwerty.apps.accounts.api import UserRetrieveView
+from qwerty.apps.core.urls import router as TransactionRouter
+
+router = DefaultRouter()
+router.registry.extend(TransactionRouter.registry)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/token/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
-    path("api/token/refresh", TokenRefreshView.as_view(), name="token-refresh"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path("api/user/", UserRetrieveView.as_view(), name="retrieve-user-data"),
+    path("api/", include(router.urls)),
+    path("api/", include("qwerty.apps.core.urls")),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

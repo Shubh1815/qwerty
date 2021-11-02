@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
+    "django_filters",
     "rest_framework",
     "qwerty.apps.base",
     "qwerty.apps.accounts",
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
 ]
 
 ALLOWED_HOSTS = env.str("ALLOWED_HOSTS").split(",")
+CORS_ALLOWED_ORIGINS = env.str("CORS_ALLOWED_ORIGINS").split(",")
 INTERNAL_IPS = ["127.0.0.1"]
 
 ROOT_URLCONF = "qwerty.urls"
@@ -45,6 +48,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -131,17 +135,32 @@ STATICFILES_DIRS = [
 ]
 
 # ==============================================================================
+# MEDIA FILES SETTINGS
+# ==============================================================================
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR.parent.parent, "media")
+
+# ==============================================================================
 # LOGGING CONFIGURATIONS
 # ==============================================================================
 
-logging = {
+LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        }
+    },
     "formatters": {
         "console": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"}
     },
     "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "console"},
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+        },
     },
 }
 
@@ -150,9 +169,11 @@ logging = {
 # ==============================================================================
 
 REST_FRAMEWORK = {
+    "PAGE_SIZE": 10,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    ),
 }
 
 # ==============================================================================

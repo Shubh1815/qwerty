@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
-from django.db.models import F, Sum, Value
 from django.forms import ModelForm
 
 from .models import Product, Calorie, Transaction, Item
@@ -97,6 +96,9 @@ class TransactionAdmin(admin.ModelAdmin):
         ItemInline,
     ]
     raw_id_fields = ("student",)
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
     def get_fields(self, request, obj):
         fields = list(super().get_fields(request, obj=obj))

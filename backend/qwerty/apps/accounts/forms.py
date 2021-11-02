@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 User = get_user_model()
 
@@ -20,6 +21,8 @@ class CustomUserCreationForm(forms.ModelForm):
 
         if password1 != password2:
             ValidationError("Passwords don't match")
+
+        validate_password(password1, self.instance)
 
         return password2
 

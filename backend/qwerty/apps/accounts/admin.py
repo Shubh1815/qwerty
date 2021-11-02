@@ -9,6 +9,7 @@ from .models import User, StudentUser, Student
 
 class StudentInline(admin.StackedInline):
     model = Student
+    exclude = ("qrcode",)
     verbose_name_plural = "Student Info"
     can_delete = False
 
@@ -39,13 +40,18 @@ class StudentAdmin(UserAdmin):
     inlines = [
         StudentInline,
     ]
-    list_display = ("get_student_enrollment_no", "first_name", "last_name")
+    list_display = (
+        "get_student_enrollment_no",
+        "first_name",
+        "last_name",
+    )
     list_filter = ("student__batch",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         ("Personal Info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("role",)}),
     )
+    ordering = ("student__enrollment_no",)
 
     def get_changeform_initial_data(self, request):
         initial_data = super().get_changeform_initial_data(request)

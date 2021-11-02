@@ -74,13 +74,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.role in (self.Roles.ADMIN, self.Roles.STAFF)
 
+    @property
+    def is_student(self):
+        return self.role == self.Roles.STUDENT
+
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
 
 class StudentManager(Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(role=User.Roles.STUDENT).select_related()
+        return (
+            super()
+            .get_queryset()
+            .filter(role=User.Roles.STUDENT)
+            .select_related("student")
+        )
 
 
 class StudentUser(User):
