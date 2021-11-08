@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Box, LinearProgress } from "@mui/material";
 import { Typography, Divider, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ResponsiveContainer as ReChartsResponsiveContainer, LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip, Layer } from 'recharts';
+import { ResponsiveContainer as ReChartsResponsiveContainer, LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 
 import useAuthQuery from "../../../hooks/useAuthQuery";
 import useToken from "../../../hooks/useToken";
