@@ -21,7 +21,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.routers import DefaultRouter
 
-from qwerty.apps.accounts.api import UserRetrieveView
+from qwerty.apps.accounts.api import UserRetrieveView, UserPasswordChangeView
 from qwerty.apps.core.urls import router as TransactionRouter
 
 router = DefaultRouter()
@@ -32,6 +32,11 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("api/user/", UserRetrieveView.as_view(), name="retrieve-user-data"),
+    path(
+        "api/user/change_password/",
+        UserPasswordChangeView.as_view(),
+        name="user-password-change",
+    ),
     path("api/", include(router.urls)),
     path("api/", include("qwerty.apps.core.urls")),
 ]

@@ -1,1 +1,1 @@
-from .user import UserRetrieveView
+from .user import UserRetrieveView, UserPasswordChangeView

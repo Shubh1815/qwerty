@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
     "qwerty.apps.base",
     "qwerty.apps.accounts",
     "qwerty.apps.core",
