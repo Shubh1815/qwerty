@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import StudentDashboard from './components/Student/Dashboard';
 import ManagerDashboard from './components/Manager/Dashboard';
+import StudentProfile from './components/Student/Profile';
 import { CalorieTracker, ExpenseTracker } from './components/Student/Tracker';
 
 import AuthContext, { User } from './context/Auth';
@@ -66,6 +67,7 @@ function App() {
                                         <Route exact path="/dashboard/" component={StudentDashboard}></Route>
                                         <Route exact path="/tracker/expense/" component={ExpenseTracker}></Route>
                                         <Route exact path="/tracker/calorie/" component={CalorieTracker}></Route>
+                                        <Route exact path="/profile/" component={StudentProfile}></Route>
                                     </React.Fragment>
                                 }
                                 {user && (user.role === "admin" || user.role === "manager") &&
