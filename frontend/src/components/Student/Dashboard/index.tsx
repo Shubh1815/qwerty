@@ -17,7 +17,6 @@ const Table = styled(MuiTable)({
         'color': '#cccccc',
         'fontWeight': 'bold',
     },
-    'min-height': '300px',
 });
 
 
@@ -76,18 +75,19 @@ const StudentDashboard: React.FC = () => {
                                 }
                             </TableBody>
                         </Table>
-                        {data &&
-                            <TablePagination
-                                rowsPerPageOptions={[10]}
-                                component="div"
-                                count={data.count ? data.count : -1}
-                                rowsPerPage={data.data.length}
-                                page={page}
-                                onPageChange={onPageChange}
-                            />
-                        }
                     </TableContainer>
-
+                    {data &&
+                        <TablePagination
+                            square
+                            elevation={5}
+                            rowsPerPageOptions={[10]}
+                            component={Paper}
+                            count={data.count ? data.count : -1}
+                            rowsPerPage={data.data.length}
+                            page={page}
+                            onPageChange={onPageChange}
+                        />
+                    }
                 </Grid>
             </Grid>
         </Container>
