@@ -45,8 +45,6 @@ function App() {
                     setUser(null);
                     setLoading(false);
                 });
-        } else if (user && !(cookies.access_token || cookies.refresh_token)) {
-            setUser(null);
         } else {
             setLoading(false);
         }
@@ -55,7 +53,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <QueryClientProvider client={queryclient}>
-                <AuthContext.Provider value={user} >
+                <AuthContext.Provider value={{ user: user, setUser: setUser }}>
                     <Router>
                         <Navbar />
                         {loading ?

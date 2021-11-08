@@ -22,6 +22,9 @@ export interface User {
     role: Roles
 };
 
-const AuthContext = createContext<User | null>(null);
+const AuthContext = createContext<{
+    user: User | null,
+    setUser?: React.Dispatch<React.SetStateAction<User | null>>
+}>({ user: null });
 
 export default AuthContext;

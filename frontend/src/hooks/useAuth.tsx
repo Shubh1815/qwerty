@@ -6,17 +6,20 @@ import useToken from "./useToken";
 
 const useAuth = () => {
 
-    const user = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const history = useHistory();
     const { setTokens, removeTokens } = useToken();
 
     const logOut = () => {
         removeTokens();
+        setUser!(null);
+
         history.push('/');
     }
 
     const logIn = (access: string, refresh: string) => {
         setTokens({ access, refresh });
+
         history.push('/dashboard');
     }
 
