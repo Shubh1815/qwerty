@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, Paper, Typography, Divider, TextField } from "@mui/material";
+import { Container, Grid, Paper, Typography, TextField } from "@mui/material";
 
 import useAuth from "../../../hooks/useAuth";
 
