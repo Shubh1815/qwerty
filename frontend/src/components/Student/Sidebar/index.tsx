@@ -105,7 +105,7 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Wallet" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button selected={isSelected(["/password/change/"])} component={Link} to="/password/change/">
                     <ListItemIcon><BsKey size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Change Password" />

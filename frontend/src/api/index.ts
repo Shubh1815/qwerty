@@ -5,6 +5,7 @@ export type { ErrorReponse, SuccessResponse } from './response';
 export type { Expenditure, ExpenditureResponse } from './getExpense';
 export type { TokenResponse, LoginErrorResponse } from './login';
 export type { TranscationResponse, TransactionData } from './getTransaction';
+export type { ChangePasswordSuccessResponse, ChangePasswordErrorResponse } from './changePassword';
 export type { TransactionCreatedResponse, TransactionBody, TransactionCreatedErrorResponse, TransactionValidationError } from './postTransaction';
 
 export { login } from './login';
@@ -15,3 +16,4 @@ export { getExpense } from './getExpense';
 export { getTransactions } from './getTransaction';
 export { postTransaction } from './postTransaction';
 export { getProduct, Categories } from './getProduct';
+export { changePassword } from './changePassword';

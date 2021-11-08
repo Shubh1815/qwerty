@@ -9,6 +9,7 @@ import Login from './components/Login';
 import StudentDashboard from './components/Student/Dashboard';
 import ManagerDashboard from './components/Manager/Dashboard';
 import StudentProfile from './components/Student/Profile';
+import ChangePassword from './components/ChangePassword';
 import { CalorieTracker, ExpenseTracker } from './components/Student/Tracker';
 
 import AuthContext, { User } from './context/Auth';
@@ -60,6 +61,9 @@ function App() {
                             <LinearProgress color="secondary" /> :
                             <Switch>
                                 <Route exact path="/" component={Login}></Route>
+                                {user &&
+                                    <Route exact path="/password/change/" component={ChangePassword} ></Route>
+                                }
                                 {user && user.role === "student" &&
                                     <React.Fragment>
                                         <Route exact path="/dashboard/" component={StudentDashboard}></Route>
