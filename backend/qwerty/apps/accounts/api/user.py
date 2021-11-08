@@ -66,7 +66,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs.get("password") != attrs.get("password2"):
-            raise ValidationError({"password": "Password fields does not match"})
+            raise ValidationError("Password fields does not match")
 
         return attrs
 
@@ -75,7 +75,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         user = request.user if request else None
 
         if not user.check_password(value):
-            raise ValidationError({"old_password": "Old password is not correct"})
+            raise ValidationError("Old password is not correct")
 
         return value
 
