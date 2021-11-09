@@ -17,8 +17,12 @@ const Drawer = styled(MuiDrawer)(
     {
         boxSizing: 'border-box',
         flexShrink: 0,
+        top: '64px',
         whiteSpace: 'nowrap',
         width: sidebarWidth,
+        '& .MuiBackdrop-root': {
+            top: '64px',
+        },
         '& .MuiDrawer-paper': {
             backgroundColor: "#2d3035",
             boxSizing: 'border-box',
@@ -71,9 +75,10 @@ const SideBar: React.FC<Props> = ({ open, closeSideBar }) => {
     return (
         <Drawer
             anchor="left"
-            variant="persistent"
+            variant="temporary"
             open={open}
-            elevation={3}
+            onBackdropClick={closeSideBar}
+            elevation={0}
         >
             <List>
                 <ListSubheader>Main</ListSubheader>
