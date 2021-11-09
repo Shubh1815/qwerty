@@ -12,39 +12,68 @@ const Profile: React.FC = () => {
 
             {user && user.student_info &&
                 <React.Fragment>
-                    <Grid container p="16px" mt="24px" rowSpacing={2} component={Paper} elevation={4}>
+                    <Grid
+                        container
+                        component={Paper}
+                        elevation={4}
+                        maxWidth="sm"
+                        mt="24px"
+                        p="16px"
+                        rowSpacing={2}
+                    >
                         <Typography gutterBottom variant="h5" color="lightgray" fontWeight="bold">User Info</Typography>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">Email</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Email
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
+                                    fullWidth
                                     value={user.email}
                                     size="small"
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">First Name</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                First Name
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
+                                    fullWidth
                                     value={user.first_name}
                                     size="small"
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">Last Name</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Last Name
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
+                                    fullWidth
                                     value={user.last_name}
                                     size="small"
                                 />
@@ -53,39 +82,68 @@ const Profile: React.FC = () => {
                     </Grid>
 
 
-                    <Grid container p="16px" mt="24px" rowSpacing={2} component={Paper} elevation={4}>
+                    <Grid
+                        container
+                        component={Paper}
+                        elevation={4}
+                        maxWidth="sm"
+                        mt="24px"
+                        p="16px"
+                        rowSpacing={2}
+                    >
                         <Typography gutterBottom variant="h5" color="lightgray" fontWeight="bold">Student Info</Typography>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">Batch</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Batch
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
-                                    value={user.student_info.batch}
+                                    fullWidth
                                     size="small"
+                                    value={user.student_info.batch}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">Enrollment No.</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Enrollment No.
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
+                                    fullWidth
                                     value={user.student_info.enrollment_no}
                                     size="small"
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container mt="12px" justifyContent="flex-start" alignContent="center" xs={12}>
-                            <Grid item xs={2}>
-                                <Typography mt="5px" variant="h6" color="white">Balance</Typography>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Balance
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={9}>
                                 <TextField
                                     disabled
+                                    fullWidth
                                     value={user.student_info.balance}
                                     size="small"
                                 />
