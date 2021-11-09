@@ -9,7 +9,7 @@ import useToken from "../../../hooks/useToken";
 import { getCalorie, CalorieResponse } from "../../../api";
 
 const ResponsiveContainer = styled(ReChartsResponsiveContainer)({
-    'margin-top': '32px',
+    'marginTop': '32px',
 });
 
 export const CalorieTracker: React.FC = () => {
