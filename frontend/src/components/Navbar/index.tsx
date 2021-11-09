@@ -31,6 +31,10 @@ const Navbar: React.FC = () => {
         setOpen((val) => !val);
     }
 
+    const closeSideBar = () => {
+        setOpen(false);
+    }
+
     return (
         <React.Fragment>
             <AppBar position="sticky" sx={styles.root}>
@@ -54,8 +58,8 @@ const Navbar: React.FC = () => {
                     {user && <Button variant="contained" color="secondary" onClick={logOut}>Log out</Button>}
                 </Toolbar>
             </AppBar>
-            {user && user.role === "student" && <StudentSidebar open={open} />}
-            {user && (user.role === "admin" || user.role === "manager") && <ManagerSideBar open={open} />}
+            {user && user.role === "student" && <StudentSidebar open={open} closeSideBar={closeSideBar} />}
+            {user && (user.role === "admin" || user.role === "manager") && <ManagerSideBar open={open} closeSideBar={closeSideBar} />}
         </React.Fragment>
     );
 };

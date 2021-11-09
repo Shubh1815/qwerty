@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 
 interface Props {
     open: boolean,
+    closeSideBar: () => void,
 }
 
 const sidebarWidth = "275px";
@@ -54,7 +55,7 @@ const List = styled(MuiList)(({ theme }) => ({
     }
 }));
 
-const SideBar: React.FC<Props> = ({ open }) => {
+const SideBar: React.FC<Props> = ({ open, closeSideBar }) => {
 
     const location = useLocation();
 
@@ -76,17 +77,35 @@ const SideBar: React.FC<Props> = ({ open }) => {
         >
             <List>
                 <ListSubheader>Main</ListSubheader>
-                <ListItem button selected={isSelected(["/dashboard/"])} component={Link} to="/dashboard/">
+                <ListItem
+                    button
+                    selected={isSelected(["/dashboard/"])}
+                    component={Link}
+                    to="/dashboard/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsHouse size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button selected={isSelected(["/tracker/expense/"])} component={Link} to="/tracker/expense/">
+                <ListItem
+                    button
+                    selected={isSelected(["/tracker/expense/"])}
+                    component={Link}
+                    to="/tracker/expense/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsBarChartLine size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Expense Tracker" />
                 </ListItem>
-                <ListItem button selected={isSelected(["/tracker/calorie/"])} component={Link} to="/tracker/calorie/">
+                <ListItem
+                    button
+                    selected={isSelected(["/tracker/calorie/"])}
+                    component={Link}
+                    to="/tracker/calorie/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsGraphDown size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Calorie Tracker" />
@@ -95,7 +114,13 @@ const SideBar: React.FC<Props> = ({ open }) => {
 
             <List>
                 <ListSubheader>User</ListSubheader>
-                <ListItem button selected={isSelected(["/profile/"])} component={Link} to="/profile/">
+                <ListItem
+                    button
+                    selected={isSelected(["/profile/"])}
+                    component={Link}
+                    to="/profile/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsPerson size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Profile" />
@@ -105,7 +130,13 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Wallet" />
                 </ListItem>
-                <ListItem button selected={isSelected(["/password/change/"])} component={Link} to="/password/change/">
+                <ListItem
+                    button
+                    selected={isSelected(["/password/change/"])}
+                    component={Link}
+                    to="/password/change/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsKey size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Change Password" />

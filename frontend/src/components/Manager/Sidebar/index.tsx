@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 
 interface Props {
     open: boolean,
+    closeSideBar: () => void,
 }
 
 const sidebarWidth = "275px";
@@ -58,7 +59,7 @@ const List = styled(MuiList)(({ theme }) => ({
     }
 }));
 
-const SideBar: React.FC<Props> = ({ open }) => {
+const SideBar: React.FC<Props> = ({ open, closeSideBar }) => {
 
     const location = useLocation();
     const links = {
@@ -90,6 +91,7 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     component={Link}
                     selected={isSelected(links.canteen)}
                     to="/dashboard/canteen/"
+                    onClick={closeSideBar}
                 >
                     <ListItemIcon><BsShopWindow size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
@@ -100,6 +102,7 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     component={Link}
                     selected={isSelected(links.stationary)}
                     to="/dashboard/stationary/"
+                    onClick={closeSideBar}
                 >
                     <ListItemIcon><BsShop size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
@@ -110,6 +113,7 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     component={Link}
                     selected={isSelected(links.transportion)}
                     to="/dashboard/transportation/"
+                    onClick={closeSideBar}
                 >
                     <ListItemIcon><IoBusOutline size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
@@ -124,7 +128,13 @@ const SideBar: React.FC<Props> = ({ open }) => {
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Profile" />
                 </ListItem>
-                <ListItem button>
+                <ListItem
+                    button
+                    selected={isSelected(['/password/change/'])}
+                    component={Link}
+                    to="/password/change/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsKey size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Change Password" />
