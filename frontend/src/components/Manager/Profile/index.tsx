@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Grid, Paper, Typography, TextField } from "@mui/material";
 
 import useAuth from "../../../hooks/useAuth";
-import { TypeFormatFlags } from "typescript";
 
 const Profile: React.FC = () => {
 

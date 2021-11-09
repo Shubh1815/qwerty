@@ -18,7 +18,7 @@ const ChangePassword: React.FC = () => {
 
     const { access, setTokens } = useToken();
 
-    const { mutate, data, error, isSuccess, isLoading } = useAuthMutation<
+    const { mutate, data, error, isLoading } = useAuthMutation<
         ChangePasswordSuccessResponse,
         ChangePasswordErrorResponse,
         MutationVariables
