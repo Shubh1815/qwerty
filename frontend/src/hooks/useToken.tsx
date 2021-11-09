@@ -13,8 +13,8 @@ function useToken(): TokenHook {
     const [cookies, setCookie, removeCookie] = useCookies();
 
     const setTokens = ({ access, refresh }: TokenResponse) => {
-        setCookie('access_token', access, { secure: true, path: "/" });
-        setCookie('refresh_token', refresh, { secure: true, path: "/" });
+        setCookie('access_token', access, { secure: true, path: "/", sameSite: "lax" });
+        setCookie('refresh_token', refresh, { secure: true, path: "/", sameSite: "lax" });
     };
 
     const removeTokens = () => {

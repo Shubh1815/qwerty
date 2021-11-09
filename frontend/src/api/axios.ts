@@ -20,7 +20,7 @@ const getCookie = (name: string) => {
 }
 
 const setCookie = (name: string, value: string) => {
-    document.cookie = `${name}=${value}; secure=true; path="/";`;
+    document.cookie = `${name}=${value}; secure=true; path=/; SameSite=Lax`;
 }
 
 axiosAPIInstance.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
