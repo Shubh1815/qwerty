@@ -128,7 +128,13 @@ const SideBar: React.FC<Props> = ({ open, closeSideBar }) => {
 
             <List>
                 <ListSubheader>User</ListSubheader>
-                <ListItem button>
+                <ListItem
+                    button
+                    selected={isSelected(['/profile/'])}
+                    component={Link}
+                    to="/profile/"
+                    onClick={closeSideBar}
+                >
                     <ListItemIcon><BsPerson size="24px" color="inherit" /></ListItemIcon>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <ListItemText primary="Profile" />

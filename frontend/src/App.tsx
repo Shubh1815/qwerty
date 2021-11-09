@@ -9,6 +9,7 @@ import Login from './components/Login';
 import StudentDashboard from './components/Student/Dashboard';
 import ManagerDashboard from './components/Manager/Dashboard';
 import StudentProfile from './components/Student/Profile';
+import ManagerProfile from './components/Manager/Profile';
 import ChangePassword from './components/ChangePassword';
 import { CalorieTracker, ExpenseTracker } from './components/Student/Tracker';
 
@@ -78,8 +79,8 @@ function App() {
                                             exact
                                             path={["/dashboard/", "/dashboard/:category(canteen|stationary|transportation)/"]}
                                             component={ManagerDashboard}
-                                        >
-                                        </Route>
+                                        ></Route>
+                                        <Route exact path="/profile/" component={ManagerProfile}></Route>
                                     </React.Fragment>
                                 }
                             </Switch>
