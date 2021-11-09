@@ -24,6 +24,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
 
     items = ItemSerializer(many=True)
+    date = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
 
     class Meta:
         model = Transaction
@@ -34,7 +35,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             "total_amount",
             "date",
         )
-        read_only_fields = ("total_amount",)
+        read_only_fields = ("total_amount", "date")
         extra_kwargs = {
             "student": {
                 "error_messages": {
