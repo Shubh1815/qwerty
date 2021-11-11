@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User, StudentUser, Student
+from .tasks import notify_student_about_account_creation
 
 # Register your models here.
 
@@ -41,6 +42,7 @@ class StudentAdmin(UserAdmin):
         StudentInline,
     ]
     list_display = (
+        "get_student_batch",
         "get_student_enrollment_no",
         "first_name",
         "last_name",
@@ -51,7 +53,7 @@ class StudentAdmin(UserAdmin):
         ("Personal Info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("role",)}),
     )
-    ordering = ("student__enrollment_no",)
+    ordering = ("student__batch", "student__enrollment_no")
 
     def get_changeform_initial_data(self, request):
         initial_data = super().get_changeform_initial_data(request)
@@ -66,6 +68,20 @@ class StudentAdmin(UserAdmin):
     def get_student_enrollment_no(self, obj):
         return obj.student.enrollment_no
 
+    def get_student_batch(self, obj):
+        return obj.student.batch
+
+    def save_model(self, request, obj, form, change):
+        obj = super().save_model(request, obj, form, change)
+
+        student_email = form.cleaned_data.get("email")
+        student_password = form.cleaned_data.get("password1")
+
+        notify_student_about_account_creation.delay(student_email, student_password)
+
+        return obj
+
+    get_student_batch.short_description = "Batch"
     get_student_enrollment_no.short_description = "Enrollment No."
 
 
