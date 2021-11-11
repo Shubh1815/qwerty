@@ -6,3 +6,9 @@ INSTALLED_APPS += [
 ]
 
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+
+# ==============================================================================
+# EMAIL CONFIGURATIONS
+# ==============================================================================
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
