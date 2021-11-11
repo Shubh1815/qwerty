@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User, StudentUser, Student
+from .models import User, StudentUser, Student, ResetCredentialToken
 from .tasks import notify_student_about_account_creation
 
 # Register your models here.
@@ -10,7 +10,7 @@ from .tasks import notify_student_about_account_creation
 
 class StudentInline(admin.StackedInline):
     model = Student
-    exclude = ("qrcode",)
+    exclude = ("qrcode", "pin")
     verbose_name_plural = "Student Info"
     can_delete = False
 
@@ -85,5 +85,6 @@ class StudentAdmin(UserAdmin):
     get_student_enrollment_no.short_description = "Enrollment No."
 
 
+admin.site.register(ResetCredentialToken)
 admin.site.register(User, UserAdmin)
 admin.site.register(StudentUser, StudentAdmin)
