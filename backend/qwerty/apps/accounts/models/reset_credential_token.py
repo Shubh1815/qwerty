@@ -12,7 +12,7 @@ User = get_user_model()
 class ResetCredentialToken(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    key = models.CharField(max_length=24, unique=True, db_index=True)
+    key = models.CharField(max_length=127, unique=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -23,10 +23,10 @@ class ResetCredentialToken(models.Model):
         return f"Reset Token for {self.user}"
 
     def save(self, *args, **kwargs):
-        if self.key is None:
+        if not self.key:
             self.key = TokenGenerator.make_token()
         return super().save(*args, **kwargs)
 
     @property
     def is_expired(self):
-        return (timezone.now() - settings.RESET_TOKEN_LIFETIME) < self.created_at
+        return (timezone.now() - settings.RESET_TOKEN_LIFETIME) >= self.created_at

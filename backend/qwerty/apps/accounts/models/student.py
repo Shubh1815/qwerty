@@ -14,7 +14,7 @@ class Student(models.Model):
     batch = models.CharField(max_length=15)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     pin = models.CharField(
-        max_length=6,
+        max_length=127,
         validators=[
             RegexValidator(
                 regex="^[0-9]{6,6}$", message="Pin must be of 6 digits", code="invalid"
