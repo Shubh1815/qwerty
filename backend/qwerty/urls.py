@@ -31,13 +31,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/token/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
-    path("api/user/", UserRetrieveView.as_view(), name="retrieve-user-data"),
-    path(
-        "api/user/change_password/",
-        UserPasswordChangeView.as_view(),
-        name="user-password-change",
-    ),
     path("api/", include(router.urls)),
+    path("api/", include("qwerty.apps.accounts.urls")),
     path("api/", include("qwerty.apps.core.urls")),
 ]
 
