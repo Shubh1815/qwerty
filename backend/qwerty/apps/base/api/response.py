@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import (
     ObjectDoesNotExist,
     ValidationError as DjangoValidationError,
@@ -7,6 +9,9 @@ from django.http.response import Http404
 from rest_framework import status
 from rest_framework.exceptions import ValidationError, PermissionDenied, NotFound
 from rest_framework.response import Response
+
+
+logger = logging.getLogger("django")
 
 
 class BaseResponse:
@@ -82,8 +87,10 @@ class BaseResponse:
 
     @staticmethod
     def exception_handler(exception, request=None):
-        response = None
+        logger.info(str(exception))
+
         try:
+            response = None
             raise exception
         except DjangoValidationError:
             response = __class__.bad_request(exception.message)
@@ -95,4 +102,5 @@ class BaseResponse:
             response = __class__.not_found(str(exception))
         except Exception:
             response = __class__.error(exception, request)
-        return response
+        finally:
+            return response
