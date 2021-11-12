@@ -70,7 +70,9 @@ class BaseResponse:
         return Response(status=status.HTTP_404_NOT_FOUND, data=data)
 
     @staticmethod
-    def error(e=None, request=None):
+    def error(e, request=None):
+        logger.error(str(e))
+
         data = {
             "status": "error",
             "message": "internal server error",
@@ -87,8 +89,6 @@ class BaseResponse:
 
     @staticmethod
     def exception_handler(exception, request=None):
-        logger.info(str(exception))
-
         try:
             response = None
             raise exception
