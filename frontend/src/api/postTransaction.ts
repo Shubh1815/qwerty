@@ -4,6 +4,7 @@ import { SuccessResponse, TransactionData } from ".";
 
 export interface TransactionBody {
     student: string,
+    pin: string,
     items: {
         product: string,
         quantity: number
@@ -25,6 +26,10 @@ export interface TransactionValidationError {
     'student'?: {
         code: string,
         message: string,
+    }[],
+    'pin'?: {
+        code: string,
+        message: string
     }[],
     'items'?: {
         'product'?: {

@@ -28,6 +28,7 @@ interface MutationVariables {
 
 export interface TransactionData {
     student: string,
+    pin: string,
     items: Item[],
     totalAmount: 0,
 }
@@ -58,7 +59,8 @@ const Dashboard: React.FC = () => {
 
     const [item, setItem] = useState<Item>(emptyProduct);
     const [transaction, setTransaction] = useState<TransactionData>({
-        student: "82e00864-8447-40fd-92b4-3e96f356d00f",
+        student: "",
+        pin: "",
         items: [],
         totalAmount: 0,
     });
@@ -72,6 +74,7 @@ const Dashboard: React.FC = () => {
         onSuccess: () => {
             setTransaction({
                 student: "",
+                pin: "",
                 items: [],
                 totalAmount: 0,
             })
@@ -88,11 +91,16 @@ const Dashboard: React.FC = () => {
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
-        if (value) {
-            setItem((previousItem) => (
-                { ...previousItem, quantity: value }
-            ));
-        }
+        setItem((previousItem) => (
+            { ...previousItem, quantity: value }
+        ));
+    };
+
+    const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTransaction((previousTransaction) => (
+            { ...previousTransaction, pin: value }
+        ));
     };
 
     const addItem = () => {
@@ -146,6 +154,7 @@ const Dashboard: React.FC = () => {
     const handleTransaction = () => {
         let record: TransactionBody = {
             student: transaction.student,
+            pin: transaction.pin,
             items: transaction.items.map((object) => ({
                 product: object.product.name,
                 quantity: object.quantity
@@ -170,6 +179,10 @@ const Dashboard: React.FC = () => {
 
             if (message.student) {
                 error += "Student: " + message.student.map((object) => object.message).join(" ") + "\n";
+            }
+
+            if (message.pin) {
+                error += "Pin: " + message.pin.map((object) => object.message).join(" ") + " ";
             }
 
             if (message.items) {
@@ -297,6 +310,8 @@ const Dashboard: React.FC = () => {
                             placeholder="PIN"
                             size="small"
                             type="password"
+                            value={transaction.pin}
+                            onChange={handlePinChange}
                             sx={{ mt: '16px' }}
                         />
                     </Box>
