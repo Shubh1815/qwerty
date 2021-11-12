@@ -24,6 +24,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
 
     items = ItemSerializer(many=True)
+    pin = serializers.CharField(max_length=6, write_only=True)
     date = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
 
     class Meta:
@@ -31,6 +32,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "student",
+            "pin",
             "items",
             "total_amount",
             "date",
@@ -46,6 +48,9 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         student = attrs.get("student")
+
+        if not student.student.check_pin(attrs.pop("pin")):
+            raise ValidationError("Invalid PIN")
 
         total_amount = 0
         for item in attrs.get("items"):
