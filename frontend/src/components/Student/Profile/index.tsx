@@ -1,11 +1,32 @@
 import React from "react";
-import { Container, Grid, Paper, Typography, TextField } from "@mui/material";
+import { Link, useHistory } from "react-router-dom";
+import { useMutation } from "react-query";
+import { Container, Grid, Paper, Typography, TextField, ButtonGroup, Button } from "@mui/material";
 
 import useAuth from "../../../hooks/useAuth";
+import { requestPinReset, RequestResetPinSuccessResponse, RequestResetPinErrorResponse } from "../../../api";
 
 const Profile: React.FC = () => {
 
+    const history = useHistory();
     const { user } = useAuth();
+
+    const { mutate } = useMutation<
+        RequestResetPinSuccessResponse,
+        RequestResetPinErrorResponse,
+        { email: string }
+    >((params) => requestPinReset(params), {
+        onSuccess: (data) => {
+            history.push(`/student/reset/pin?key=${data.data.key}`);
+        },
+    });
+
+
+    const handleRequestResetPin = () => {
+        if (user) {
+            mutate({ email: user.email });
+        }
+    };
 
     return (
         <Container maxWidth="lg" sx={{ my: '24px' }}>
@@ -147,6 +168,23 @@ const Profile: React.FC = () => {
                                     value={user.student_info.balance}
                                     size="small"
                                 />
+                            </Grid>
+                        </Grid>
+
+                        <Grid
+                            container
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mt="12px"
+                        >
+                            <Grid item xs={3} component={Typography} variant="body1" color="white">
+                                Pin
+                            </Grid>
+                            <Grid item xs={9}>
+                                <ButtonGroup fullWidth color="primary">
+                                    <Button component={Link} to="/password/change/">Change Pin</Button>
+                                    <Button onClick={handleRequestResetPin}>Reset Pin</Button>
+                                </ButtonGroup>
                             </Grid>
                         </Grid>
                     </Grid>

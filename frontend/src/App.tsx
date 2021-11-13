@@ -11,6 +11,7 @@ import ManagerDashboard from './components/Manager/Dashboard';
 import StudentProfile from './components/Student/Profile';
 import ManagerProfile from './components/Manager/Profile';
 import ChangePassword from './components/ChangePassword';
+import ResetPin from './components/Student/ResetPin';
 import { CalorieTracker, ExpenseTracker } from './components/Student/Tracker';
 
 import AuthContext, { User } from './context/Auth';
@@ -71,6 +72,7 @@ function App() {
                                         <Route exact path="/tracker/expense/" component={ExpenseTracker}></Route>
                                         <Route exact path="/tracker/calorie/" component={CalorieTracker}></Route>
                                         <Route exact path="/profile/" component={StudentProfile}></Route>
+                                        <Route exact path="/student/reset/pin/" component={ResetPin}></Route>
                                     </React.Fragment>
                                 }
                                 {user && (user.role === "admin" || user.role === "manager") &&
