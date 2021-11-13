@@ -18,8 +18,8 @@ function useToken(): TokenHook {
     };
 
     const removeTokens = () => {
-        removeCookie('access_token');
-        removeCookie('refresh_token');
+        removeCookie('access_token', { secure: true, path: '/', sameSite: "lax" });
+        removeCookie('refresh_token', { secure: true, path: '/', sameSite: "lax" });
     }
 
     return {
