@@ -40,7 +40,7 @@ axiosAuthAPIInstance.interceptors.response.use(
 
             const refresh = getCookie('refresh_token');
             const data = await getTokens(refresh);
-            console.log(data)
+
             if (data.status === 200) {
                 setCookie('access_token', data.response.access);
                 setCookie('refresh_token', data.response.refresh);
