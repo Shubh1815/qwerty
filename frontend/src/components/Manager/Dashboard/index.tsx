@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import QrReader from "react-qr-reader";
 import { Alert, Box, Container, Grid, Typography, Divider, Paper, LinearProgress } from '@mui/material';
@@ -65,6 +65,20 @@ const Dashboard: React.FC = () => {
         totalAmount: 0,
     });
     const [scan, setScan] = useState<boolean>(false);
+
+    useEffect(() => {
+        setItem({
+            product: {
+                name: "",
+                amount: "0",
+                category: category,
+            },
+            quantity: 0
+        });
+        setTransaction((previousTransaction) => (
+            { ...previousTransaction, items: [], totalAmount: 0 }
+        ));
+    }, [category]);
 
     const mutation = useAuthMutation<
         TransactionCreatedResponse,
