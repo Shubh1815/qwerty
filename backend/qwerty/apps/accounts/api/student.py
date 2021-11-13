@@ -37,7 +37,10 @@ class ResetPinSerializer(serializers.Serializer):
 
     def validate(self, attrs):
 
-        token = ResetCredentialToken.objects.get(key=attrs.get("key"))
+        try:
+            token = ResetCredentialToken.objects.get(key=attrs.get("key"))
+        except ResetCredentialToken.DoesNotExist:
+            raise ValidationError("Invalid Token Key")
 
         if token.is_expired:
             raise ValidationError("Token is already expired")
