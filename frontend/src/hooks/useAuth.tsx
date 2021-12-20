@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { useHistory } from "react-router";
 import AuthContext from "../context/Auth";
 import useToken from "./useToken";
+import useURLParams from './useURLParams';
 
 
 const useAuth = () => {
 
     const { user, setUser } = useContext(AuthContext);
     const history = useHistory();
+    const query = useURLParams();
     const { setTokens, removeTokens } = useToken();
 
     const logOut = () => {
@@ -20,7 +22,12 @@ const useAuth = () => {
     const logIn = (access: string, refresh: string) => {
         setTokens({ access, refresh });
 
-        history.push('/dashboard');
+        const redirect_to = query.get("next");
+        if(redirect_to){
+            history.push(redirect_to);
+        } else {
+            history.push('/dashboard');
+        }
     }
 
     const isStudent = () => {
