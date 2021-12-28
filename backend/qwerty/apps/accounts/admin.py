@@ -1,5 +1,10 @@
+import io
+import weasyprint
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.http import FileResponse
+from django.template.loader import render_to_string
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User, StudentUser, Student, ResetCredentialToken
@@ -37,7 +42,21 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
+@admin.action(description="Get IDs of selected Students")
+def get_student_ids(modeladmin, request, queryset):
+    html = render_to_string("accounts/student_ids.html", {"users": queryset})
+
+    out = io.BytesIO()
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(out)
+    out.seek(io.SEEK_SET)
+
+    response = FileResponse(out, content_type="application/pdf", filename="student-ids.pdf")
+    return response
+    
+
+
 class StudentAdmin(UserAdmin):
+    actions = [get_student_ids]
     inlines = [
         StudentInline,
     ]
