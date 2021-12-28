@@ -12,6 +12,7 @@ import { BsShieldLock } from 'react-icons/bs';
 import { login, TokenResponse, LoginErrorResponse } from '../../api/';
 import useAuth from '../../hooks/useAuth';
 import useToken from '../../hooks/useToken';
+import useURLParams from '../../hooks/useURLParams';
 
 const TextField = styled(MuiTextField)(({ theme }) => ({
     '& label.MuiInputLabel-root': {
@@ -50,6 +51,7 @@ const Login: React.FC = () => {
     const theme = useTheme();
     const { access } = useToken();
     const { logIn } = useAuth();
+    const query = useURLParams();
 
     const { mutate, isLoading, error } = useMutation<TokenResponse, LoginErrorResponse, FormData>(login, {
         onSuccess: (data) => {
@@ -65,7 +67,11 @@ const Login: React.FC = () => {
     }
 
     if (access) {
-        return <Redirect to="/dashboard" />
+        let redirect_to = query.get('next');
+        if (!redirect_to) {
+            redirect_to = "/dashboard";
+        }
+        return <Redirect to={redirect_to} />
     }
 
     return (
