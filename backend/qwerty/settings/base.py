@@ -115,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # RESET TOKEN CONFIGURATIONS
 # ==============================================================================
 
+RESET_PIN_ENDPOINT = env.str("RESET_PIN_ENDPOINT")
 RESET_TOKEN_LIFETIME = timedelta(minutes=5)
 
 # ==============================================================================
