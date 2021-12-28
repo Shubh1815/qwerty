@@ -182,7 +182,6 @@ const Profile: React.FC = () => {
                             </Grid>
                             <Grid item xs={9}>
                                 <ButtonGroup fullWidth color="primary">
-                                    <Button component={Link} to="/password/change/">Change Pin</Button>
                                     <Button onClick={handleRequestResetPin}>Reset Pin</Button>
                                 </ButtonGroup>
                             </Grid>
