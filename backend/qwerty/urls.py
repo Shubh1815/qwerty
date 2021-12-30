@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.routers import DefaultRouter
@@ -34,6 +35,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/", include("qwerty.apps.accounts.urls")),
     path("api/", include("qwerty.apps.core.urls")),
+    re_path(r"^.*", TemplateView.as_view(template_name='index.html'))
 ]
 
 if settings.DEBUG:

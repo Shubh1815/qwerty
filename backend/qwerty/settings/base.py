@@ -8,6 +8,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = os.path.join(BASE_DIR.parent.parent, "frontend")
 
 # ==============================================================================
 # CORE SETTINGS
@@ -64,7 +65,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(FRONTEND_DIR, "build")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -140,6 +141,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR.parent.parent, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(FRONTEND_DIR, "build/static")
 ]
 
 # ==============================================================================
