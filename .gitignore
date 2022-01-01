@@ -1,6 +1,7 @@
 .env
 __pycache__
 media/
+static/
 
 # dependencies
 node_modules
