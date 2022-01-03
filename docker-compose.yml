@@ -1,0 +1,63 @@
+version: '3.7'
+
+services:
+    nginx:
+        build: ./nginx
+        ports:
+            - 5000:80
+        volumes:
+            - static_volume:/home/app/qwerty/static
+        depends_on:
+            - web
+        restart: "on-failure"
+
+    web:
+        build:
+            context: .
+            dockerfile: ./web/Dockerfile
+        command: gunicorn qwerty.wsgi:application --bind 0.0.0.0:8000
+        environment:
+            - DJANGO_SETTINGS_MODULE=qwerty.settings.production
+        volumes:
+            - .:/qwerty:rw
+            - static_volume:/home/app/qwerty/static
+        expose:
+            - 8000
+        restart: "on-failure"
+        depends_on:
+            - db
+            - celery-worker
+
+    celery-worker:
+        build:
+            context: .
+            dockerfile: ./web/Dockerfile
+        command: celery -A core worker -l INFO
+        env_file:
+            - .env
+        restart: "on-failure"
+        depends_on:
+            - db
+            - rabbit
+
+
+    rabbit:
+        image: "rabbitmq:latest"
+        env_file:
+            - .env
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        restart: on-failure
+
+    db:
+        image: postgres:12-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            - .env
+        restart: "on-failure"
+
+volumes:
+  postgres_data:
+  static_volume:
