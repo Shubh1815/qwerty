@@ -2,28 +2,30 @@ version: '3.7'
 
 services:
     nginx:
-        build: ./nginx
+        build:
+            context: nginx
+            dockerfile: Dockerfile
         ports:
             - 5000:80
         volumes:
             - static_volume:/home/apps/qwerty/static
+            - media_volume:/home/apps/qwerty/media
         depends_on:
             - web
-        # restart: "on-failure"
 
     web:
         build:
             context: web
             dockerfile: Dockerfile
-        command: gunicorn qwerty.wsgi:application --chdir backend --bind 0.0.0.0:8000
-        environment:
-            - DJANGO_SETTINGS_MODULE=qwerty.settings.production
+        command: /bin/sh entrypoint.sh
+        env_file:
+            - .env
         volumes:
-            - .:/qwerty:rw
+            - ./web/:/home/apps/qwerty/
             - static_volume:/home/apps/qwerty/static
+            - media_volume:/home/apps/qwerty/media
         expose:
             - 8000
-        # restart: "on-failure"
         depends_on:
             - db
             - celery-worker
@@ -32,10 +34,11 @@ services:
         build:
             context: web
             dockerfile: Dockerfile
-        command: celery --workdir backend -A qwerty worker -l info
+        command: /bin/sh -c "sleep 10 && celery --workdir backend -A qwerty worker -l info"
         env_file:
             - .env
-        # restart: "on-failure"
+        volumes:
+            - ./web/:/home/apps/qwerty/
         depends_on:
             - db
             - rabbitmq
@@ -47,16 +50,14 @@ services:
         ports:
             - "5672:5672"
             - "15672:15672"
-        # restart: on-failure
-
     db:
         image: postgres:12-alpine
         volumes:
             - postgres_data:/var/lib/postgresql/data/
         env_file:
             - .env
-        # restart: "on-failure"
 
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
