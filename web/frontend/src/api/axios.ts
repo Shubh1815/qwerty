@@ -24,12 +24,30 @@ const setCookie = (name: string, value: string) => {
 }
 
 axiosAPIInstance.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
+axiosAPIInstance.interceptors.request.use(config => {
+    const csrftoken = getCookie('csrftoken');
+    const headers = {
+        ...config.headers,
+        'X-CSRFToken': csrftoken ? csrftoken : ''
+    }
+    config.headers = headers;
+    return config;
+});
 axiosAPIInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     (error: AxiosError) => error.response,
-)
+);
 
 axiosAuthAPIInstance.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
+axiosAuthAPIInstance.interceptors.request.use(config => {
+    const csrftoken = getCookie('csrftoken');
+    const headers = {
+        ...config.headers,
+        'X-CSRFToken': csrftoken ? csrftoken : ''
+    }
+    config.headers = headers;
+    return config;
+});
 axiosAuthAPIInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error: AxiosError) => {
