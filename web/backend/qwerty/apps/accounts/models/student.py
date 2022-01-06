@@ -1,3 +1,5 @@
+import base64
+
 from django.conf import settings
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.validators import RegexValidator
@@ -49,3 +51,7 @@ class Student(models.Model):
             self.save(update_fields=["pin"])
 
         return check_password(raw_pin, self.pin, setter)
+
+    def get_encoded_qrcode(self):
+        with open(self.qrcode.path, 'rb') as f:
+            return base64.b64encode(f.read()).decode('utf-8')
