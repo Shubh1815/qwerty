@@ -35,7 +35,6 @@ INSTALLED_APPS = [
 
 ALLOWED_HOSTS = env.str("ALLOWED_HOSTS").split(",")
 CORS_ALLOWED_ORIGINS = env.str("CORS_ALLOWED_ORIGINS").split(",")
-INTERNAL_IPS = ["127.0.0.1"]
 
 ROOT_URLCONF = "qwerty.urls"
 WSGI_APPLICATION = "qwerty.wsgi.application"
