@@ -8,4 +8,7 @@ python backend/manage.py migrate
 python backend/manage.py collectstatic --no-input
 
 # Gunicorn
-gunicorn qwerty.wsgi:application --chdir backend --bind 0.0.0.0:8000
+gunicorn --chdir backend qwerty.wsgi:application \
+--bind 0.0.0.0:8000 \
+--error-logfile /var/log/gunicorn.error.log \
+--access-logfile /var/log/gunicorn.access.log 
