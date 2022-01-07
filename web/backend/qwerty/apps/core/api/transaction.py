@@ -84,7 +84,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             for item in items:
                 product = item.get("product")
                 quantity = item.get("quantity")
-                price_per_quantity = item.get("quantity")
+                price_per_quantity = product.amount
 
                 item_instances.append(
                     Item(
