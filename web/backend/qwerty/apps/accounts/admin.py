@@ -91,6 +91,7 @@ class StudentAdmin(UserAdmin):
         return obj.student.batch
 
     def save_model(self, request, obj, form, change):
+        obj.student.set_pin(None)
         obj = super().save_model(request, obj, form, change)
 
         student_email = form.cleaned_data.get("email")
